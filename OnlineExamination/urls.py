@@ -18,7 +18,12 @@ from django.contrib import admin
 from . import view
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^main/', view.main),
-    url(r'^login/', view.login),
+    url(r'^admin/$', admin.site.urls),
+    url(r'^main/$', view.main),
+    # url(r'^verify/$', view.verify),
+    url(r'^login/$', view.loginpage),
+    url(r'^admin_main/$', view.admin_main),
+
+    # url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'login.html'}),
+    # url(r'^logout/$', 'django.contrib.auth.views.logout', {'template_name': 'main.html'}),
 ]

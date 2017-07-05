@@ -89,3 +89,11 @@ body {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+
+
+.container_footer .navbar-inner{
+  background-color: #e5e5e5;
+}
+.container_footer p{
+  color:#000000;
+}

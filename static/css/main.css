@@ -52,3 +52,11 @@ body {
   padding: 14px 24px;
   font-size: 21px;
 }
+
+
+.container_footer .navbar-inner{
+  background-color: #e5e5e5;
+}
+.container_footer p{
+  color:#000000;
+}

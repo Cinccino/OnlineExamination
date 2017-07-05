@@ -48,35 +48,44 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Project name</a>
+                <a class="navbar-brand">Project name</a>
                 </div>
                 <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#login">Login</a></li>
+                    <li><a href="/login">Login</a></li>
                 </ul>
                 </div><!--/.nav-collapse -->
             </div>
     </nav>
 
+    {% if error  %} 
+    <div class="alert alert-dismissable alert-danger">
+				 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+				<h4>
+					注意!
+				</h4> <strong>Warning!</strong> Best check yo self, you're not looking too good. 
+		</div>
+    {% endif %}
+
     <div class="container">
 
-      <form class="form-signin">
+      <form class="form-signin" method="post">
+        {% csrf_token %}
         <h1 class="form-signin-heading">Please sign in</h1>
-        <label for="inputEmail" class="sr-only">Email address</label>
-        <input type="text" id="inputEmail" class="form-control" placeholder="Username" required autofocus>
+        <label for="inputUsername" class="sr-only">Username</label>
+        <input type="text" id="inputUsername" name="inputUsername" class="form-control" placeholder="Username" required autofocus>
         <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Password" required>
         <div class="select">
           <!-------------------------------------------------------------------------------------------------------------->
-            <select id="basic" class="selectpicker show-tick form-control" data-live-search="true"  data-live-search-style="begins" title="Please select a lunch ...">
-                <option>cow</option>
-                <option>bull</option>
-                <option>sheep</option>
-
+            <select id="selectid" name="selectid" class="selectpicker show-tick form-control" data-live-search="true"  data-live-search-style="begins" title="Please select a lunch ...">
+                <option>Student</option>
+                <option>Teacher</option>
+                <option>Administrator</option>
             </select>
           
         </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" name="login">Sign in</button>
       </form>
 
     </div> <!-- /container -->
@@ -85,17 +94,21 @@
 
 
 
-    <footer class="footer">
-      <div class="container">
-        <p class="text-muted">Place sticky footer content here.</p>
-      </div>
-    </footer>
+    <div id="footer" class="container_footer">
+      <nav class="navbar navbar-default navbar-fixed-bottom">
+          <div class="navbar-inner navbar-content-center">
+              <p class="text-muted credit" style="padding: 10px;">
+                  this is our footer
+              </p>
+          </div>
+      </nav>
+    </div>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script>window.jQuery || document.write('<script src="../static/bootstrapdist/assets/js/vendor/jquery.min.js"><\/script>')</script>
     <script src="../static/bootstrapdist/js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../static/bootstrapdist/assets/js/ie10-viewport-bug-workaround.js"></script>
