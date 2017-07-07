@@ -26,4 +26,5 @@ urlpatterns = [
 
     # url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'login.html'}),
     # url(r'^logout/$', 'django.contrib.auth.views.logout', {'template_name': 'main.html'}),
+    url(r'^asset_show_table/$',view.show_asset_in_table,name='show_asset_in_table'),  # 展示资产信息在bootstrap-table里面
 ]

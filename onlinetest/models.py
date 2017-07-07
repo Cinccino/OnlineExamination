@@ -101,5 +101,5 @@ class Paper_Content(models.Model):
 class Student_Class(models.Model):
     studenttoclassid = models.AutoField(primary_key=True)
     studentid = models.ForeignKey(Studnet, related_name='SC_Student')
-    subjectid = models.ForeignKey(Subject, related_name='PI_Subject')
+    subjectid = models.ForeignKey(Subject, related_name='SC_Subject')
     semester = models.CharField(max_length=20)

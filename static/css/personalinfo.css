@@ -107,6 +107,12 @@ img{
     /*height:0px;*/
     padding: 20px;
 }
+
+.input-group{
+    position:relative;
+    top:40px;
+    left:0px;
+}
 .col-md-8 h1{
     position:relative;
     top:35px;
