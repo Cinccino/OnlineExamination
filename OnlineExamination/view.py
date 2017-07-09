@@ -1,11 +1,12 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render,redirect,render_to_response
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count,Sum
-import json
+
 from onlinetest import models
 from django.http import JsonResponse
-
+import json
+from . import functions 
 
 def main(request):
     # context = {}
@@ -22,51 +23,65 @@ def loginpage(request):
         if request.POST:
             username= request.POST['inputUsername']
             pwd=request.POST['inputPassword']
-            userid=request.POST['selectid']
-        if username=='111' and pwd=='111' and userid=='Administrator':
-            ctx['username']=username
-            return render(request,'admin-main.html', ctx)
+            useridentity=request.POST['selectid']
+        print(useridentity)
+        flag,errormsg=functions.searchmatchuser(username,pwd,useridentity)
+
+        if flag:
+            if useridentity=="Administrator":
+                userinfo=functions.getadmininfo(username)
+                # print(userinfo.name,userinfo.mail)
+                ctx['username']=userinfo.username
+                ctx['name']=userinfo.name
+                ctx['pwd']=userinfo.pwd
+                ctx['mail']=userinfo.mail
+                response=render_to_response('admin-main.html',ctx)
+                response.set_cookie("userid",username)
+                return response
+            elif useridentity=="Student":
+                userinfo=functions.getstudentinfo(username)
+                # print(userinfo.name,userinfo.mail)
+                ctx['username']=userinfo.username
+                ctx['name']=userinfo.name
+                ctx['pwd']=userinfo.pwd
+                ctx['mail']=userinfo.mail
+                response=render_to_response('student-main.html',ctx)
+                response.set_cookie("userid",username)
+                return response
+            elif useridentity=="Teacher":
+                userinfo=functions.getteacherinfo(username)
+                # print(userinfo.name,userinfo.mail)
+                ctx['username']=userinfo.username
+                ctx['name']=userinfo.name
+                ctx['pwd']=userinfo.pwd
+                ctx['mail']=userinfo.mail
+                response=render_to_response('teacher-main.html',ctx)
+                response.set_cookie("userid",username)
+                return response
+            else:
+                ctx['error']=1
+                ctx['errormsg']="Unknown Error"
+                return render(request,'login.html',ctx)
+                
         else:
             ctx['error']=1
-            return render(request,'login.html',ctx)   
+            ctx['errormsg']=errormsg
+            return render(request,'login.html',ctx)
+    else:
+        ctx['error']=1
+        ctx['errormsg']="Unknown Error"
+        return render(request,'login.html',ctx)
     
 
-def admin_main(request):
-    return render(request,'admin-main.html')
-
-# @login_required(login_url="/login/") 
-# def verify(request):
-#     ctx ={}
-#     if request.POST:
-#         username= request.POST['inputUsername']
-#         pwd=request.POST['inputPassword']
-#         userid=request.POST['selectid']
-#     if username=='111' and pwd=='111' and userid=='Administrator':
-#         ctx['username']=username
-#         return render(request,'admin-main.html', ctx)
-#     else:
-#         return render(request,'login.html')                    
+def logout(request):
+    ctx={}
+    ctx['success']=1
+    response=render_to_response('main.html',ctx)
+    response.delete_cookie('userid')
+    return response
 
 
-# def get_ram_sum_size(asset_id):
-#     '''
-#     get the size of RAM and disk in total
-#     :param asset_id:  asset's id
-#     :return:   the size of RAM in total
-#     '''
-#     all_ram_slot = models.RAM.objects.filter(asset__id=asset_id)
-#     all_disk_slot = models.Disk.objects.filter(asset__id=asset_id)
-#     ram=0
-#     for slot in all_ram_slot:
-#         ram=ram+slot.capacity
 
-#     disk = 0
-#     for slot in all_disk_slot:
-#         disk = disk+slot.capacity
-#     return ram,disk
-
-def table(request):
-    return render(request,'infoeditor.html')
 
 def aothertableview(request):
     qs = models.Admin.objects.all()  # Use the Pandas Manager
@@ -86,7 +101,7 @@ def aothertableview(request):
     # print(context)
     return render(request, template, context)
 
-def show_asset_in_table(request):
+def show_table_student(request):
 
     if request.method == "GET":
         print(request.GET)
@@ -128,4 +143,107 @@ def show_asset_in_table(request):
         # return  HttpResponse(json.dumps(response_data))    # json
 
 
+
+def show_table_teacher(request):
     
+    if request.method == "GET":
+        print(request.GET)
+        limit = request.GET.get('limit')   # how many items per page
+        offset = request.GET.get('offset')  # how many items in total in the DB
+        search = request.GET.get('search')
+        sort_column = request.GET.get('sort')   # which column need to sort
+        order = request.GET.get('order')      # ascending or descending
+        if search:    #    
+            all_records = models.Teacher.objects.filter(usrename=search)
+        else:
+            all_records = models.Teacher.objects.all()   # must be wirte the line code here
+
+        all_records_count=all_records.count()
+
+        if not offset:
+            offset = 0
+        if not limit:
+            limit = 20    
+
+        page = int(int(offset) / int(limit) + 1)    
+        response_data = {'total':all_records_count,'rows':[]}   
+        for asset in all_records:    
+            response_data['rows'].append({
+                "username": asset.username,   
+                "name" : asset.name,
+                "pwd":asset.pwd,
+                "mail":asset.mail,
+            })
+
+        return JsonResponse(response_data)
+
+def show_table_grade(request):
+    
+    if request.method == "GET":
+        print(request.GET)
+        limit = request.GET.get('limit')   # how many items per page
+        offset = request.GET.get('offset')  # how many items in total in the DB
+        search = request.GET.get('search')
+        sort_column = request.GET.get('sort')   # which column need to sort
+        order = request.GET.get('order')      # ascending or descending
+        # paperinfo=models.PaperInfo.objects.filter(studentid_id=search)
+
+        # papers = models.Paper_Content.objects.filter(paperid=search)
+
+
+        # all_records = models.Teacher.objects.all() 
+
+        # all_records_count=all_records.count()
+
+        # if not offset:
+        #     offset = 0
+        # if not limit:
+        #     limit = 20    
+            
+        # page = int(int(offset) / int(limit) + 1)    
+        # response_data = {'total':all_records_count,'rows':[]}   
+        # for asset in all_records:    
+        #     response_data['rows'].append({
+        #         "username": asset.username,   
+        #         "name" : asset.name,
+        #         "paperid":asset.paperid,
+        #         "grade":asset.grade,
+        #     })
+        all_records_count=1
+        response_data = {'total':all_records_count,'rows':[]} 
+        response_data['rows'].append({ "username": "tenmp","name" : "tenmp","paperid":"tenmp","grade":"tenmp"})
+        return JsonResponse(response_data)
+
+
+
+def asset_show_table_questionbank(request):
+    if request.method == "GET":
+        print(request.GET)
+        limit = request.GET.get('limit')   # how many items per page
+        offset = request.GET.get('offset')  # how many items in total in the DB
+        search = request.GET.get('search')
+        sort_column = request.GET.get('sort')   # which column need to sort
+        order = request.GET.get('order')      # ascending or descending
+
+        all_records = models.QuestionBank.objects.all()   # must be wirte the line code here
+
+        all_records_count=all_records.count()
+
+        if not offset:
+            offset = 0
+        if not limit:
+            limit = 20    
+
+        page = int(int(offset) / int(limit) + 1)    
+        response_data = {'total':all_records_count,'rows':[]}   
+        for asset in all_records:    
+            response_data['rows'].append({
+                "questionid": asset.questionid,   
+                "content" : asset.content,
+                "choice":asset.choice,
+                "answer":asset.answer,
+                "score":asset.score,
+                "subjectid_id":asset.subjectid_id,
+            })
+        return JsonResponse(response_data)
+

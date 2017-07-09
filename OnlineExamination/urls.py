@@ -15,18 +15,41 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from . import view
+from . import view,studentview,adminview,teacherview
 
 urlpatterns = [
-    # url(r'^admin/$', admin.site.urls),
+    # login pages
     url(r'^main/$', view.main),
-    # url(r'^verify/$', view.verify),
     url(r'^login/$', view.loginpage),
-    url(r'^admin_main/$', view.admin_main),
- 
-    # url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'login.html'}),
-    # url(r'^logout/$', 'django.contrib.auth.views.logout', {'template_name': 'main.html'}),
-    url(r'^infoeditor/$', view.table),
-    url(r'^asset_show_table/$',view.show_asset_in_table),  # 
-    url(r'^aothertableview/$',view.aothertableview), 
+    url(r'^logout/$', view.logout),
+
+    url(r'^admin_main/$', adminview.admin_main),
+    url(r'^student_main/$', studentview.student_main),
+    url(r'^teacher_main/$', teacherview.teacher_main),
+    
+
+    # function page 
+    
+    url(r'^infoeditor/$', adminview.infoeditor),
+    url(r'^infoeditor_teacher/$', adminview.infoeditor_teacher),
+    url(r'^infoeditor_grade/$', adminview.infoeditor_grade),
+    url(r'^questionbank/$', adminview.questionbank),
+    url(r'^settings/$', adminview.settings),
+    url(r'^admininfo/$', adminview.admininfo),
+
+    url(r'^tgradetable/$', teacherview.tgradetable),
+    url(r'^teachersubjects/$', teacherview.teachersubjects),
+    url(r'^judgepaper/$', teacherview.judgepaper),
+    url(r'^teacherinfo/$', teacherview.teacherinfo),
+
+    url(r'^personalgrade/$', studentview.personalgrade),
+    url(r'^testui/$', studentview.testui),
+    url(r'^studentinfo/$', studentview.studentinfo),
+    
+    # data requests
+    url(r'^asset_show_table_student/$',view.show_table_student), 
+    url(r'^asset_show_table_teacher/$',view.show_table_teacher),
+    url(r'^asset_show_table_grade/$',view.show_table_grade),
+    url(r'^asset_show_table_questionbank/$',view.asset_show_table_questionbank),
+    url(r'^aothertableview/$',view.aothertableview),
 ]

@@ -21,7 +21,7 @@ class Studnet(models.Model):
     pwd = models.CharField(max_length=20)
     mail = models.EmailField(max_length=20)
     major = models.CharField(max_length=20)
-    grade = models.CharField(max_length=20)
+
     class Meta:
         verbose_name=('student')
 
@@ -65,7 +65,7 @@ class Subject_Teacher(models.Model):
 class QuestionBank(models.Model):
     questionid = models.AutoField(primary_key=True)
     subjectid = models.ForeignKey(Subject, related_name='CQ_Subject')
-    chioce = models.CharField(max_length=100,null=True)
+    choice = models.CharField(max_length=100,null=True)
     content = models.CharField(max_length=100)
     answer = models.CharField(max_length=100)
     score = models.CharField(max_length=20)

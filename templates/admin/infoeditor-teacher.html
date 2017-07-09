@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Admin-tablestudent</title>
+    <title>Admin-infoteacher</title>
 
     <link href="../../static/bootstrapdist/css/bootstrap.min.css" rel="stylesheet">
     <link href="../../static/bootstrapdist/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
@@ -53,15 +53,15 @@
                     <img src="../../static/resources/admin-circle.png" alt="pic" class="img-circle">
                 </a>
             </div>
-            <li class="active"><a href="/infoeditor">Student Table<span class="sr-only" id="studenttabletag">(current)</span></a></li>
+            <li><a href="/infoeditor" id="teachertabletag">Student Table</a></li>
+            <li class="active"><a href="/infoeditor_teacher">Teacher Table<span class="sr-only" id="studenttabletag">(current)</span></a></li>
 
-            <li><a href="/infoeditor_teacher" id="teachertabletag">Teacher Table</a></li>
             <li><a href="/infoeditor_grade" id="gradetabletag">Grade Table</a></li>
           </ul>
           <ul class="nav nav-sidebar">
             <li><a href="/questionbank">QuestionBank</a></li>
           </ul>
-           <ul class="nav nav-sidebar">
+          <ul class="nav nav-sidebar">
             <li><a href="/settings">System Settings</a></li>
             <li><a href="/admininfo">Personal Info</a></li>
           </ul>
@@ -70,7 +70,6 @@
             <li><a href="/admin_main">Return</a></li>
           </ul>
         </div>
-
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
                 
                 <div class="panel-body">
@@ -103,7 +102,7 @@
                             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
                         </button>
                     </div>
-                    <table id="tb_departments" data-toggle="table" ></table>
+                    <table id="tb_departments" data-toggle="table"></table>
                 </div>  
           
           </div>
@@ -133,7 +132,7 @@
 
     <script src="../../static/bootstrapdist/assets/js/ie-emulation-modes-warning.js"></script>
     <script src="../static/js/jquery-3.2.1.min.js"></script>
-    <script src="../../static/js/infoeditor-student.js"></script>
+    <script src="../../static/js/infoeditor-teachers.js"></script>
     <script src="../../static/bootstraptable/bootstrap-table.js"></script>
     <script src="../../static/bootstraptable/bootstrap-table.min.js"></script>
     <script src="../../static/bootstraptable/bootstrap-table-en-US.js"></script>
