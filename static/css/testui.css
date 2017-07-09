@@ -105,7 +105,7 @@ body {
 }
 
 .main {
-  padding: 20px;
+  padding: 0px;
 }
 @media (min-width: 768px) {
   .main {
@@ -145,3 +145,8 @@ img{
 /*#usertag{
   color:#fff;
 }*/
+
+#progresscontainer{
+  position: relative;
+  margin-top:0px;
+}
