@@ -1,6 +1,9 @@
+# -*- coding: utf-8 -*-
 from django.db.models import Count, Sum
 from onlinetest import models
-
+from django.db import connection
+import random
+import time
 
 def searchmatchuser(username,pwd,useridentity):
     errormsg=""
@@ -17,8 +20,8 @@ def searchmatchuser(username,pwd,useridentity):
             return False,errormsg
 
     elif useridentity=="Student" or useridentity=="student":
-        if models.Studnet.objects.filter(username=username).exists():
-            userset=models.Studnet.objects.get(username=username)
+        if models.Student.objects.filter(username=username).exists():
+            userset=models.Student.objects.get(username=username)
             if userset.pwd==pwd:
                 return True,errormsg
             else:
@@ -49,7 +52,7 @@ def getadmininfo(username):
     return userset
 
 def getstudentinfo(username):
-    userset=models.Studnet.objects.get(username=username)
+    userset=models.Student.objects.get(username=username)
     return userset
 
 def getteacherinfo(username):
@@ -62,3 +65,67 @@ def calpapergrade(paperid):
     for item in papercontent:
         scores=scores+item.score
     return scores
+
+def runsql(sql):
+    cursor=connection.cursor()
+    cursor.execute(sql)
+    ans=cursor.fetchall()
+    return ans
+
+def deluserrecord(form,username):
+    if form=="admin" or form=="Admin":
+        temprecord = models.Admin.objects.get(username=username)
+    elif form=="Student" or form=="student":
+        temprecord = models.Student.objects.get(username=username)
+    elif form=="Teacher" or form=="teacher":
+        temprecord = models.Teacher.objects.get(username=username)
+    else:
+        print("form error!")
+        return False
+    temprecord.flag=False
+    temprecord.save()
+    return True
+
+def adduserrecord(form,username,name,pwd,email,major):
+    
+    if form=="admin" or form=="Admin":
+        if models.Admin.objects.filter(username=username).exists():
+            return False,"record exists!"
+        temprecord = models.Admin.objects.create(username=username,pwd=pwd,name=name,mail=email,major=major)
+    elif form=="Student" or form=="student":
+        if models.Student.objects.filter(username=username).exists():
+            return False,"record exists!"
+        temprecord = models.Student.objects.create(username=username,pwd=pwd,name=name,mail=email,major=major)
+    elif form=="Teacher" or form=="teacher":
+        if models.Teacher.objects.filter(username=username).exists():
+            return False,"record exists!"
+        temprecord = models.Teacher.objects.create(username=username,pwd=pwd,name=name,mail=email,major=major)
+    else:
+        print("form error!")
+        return False,"no such form!"
+    
+    temprecord.save()
+    return True,""
+
+# temporary rule is totalnum=100
+def makepaper(username,subjectid):
+    # generate paperinfo
+    date=time.strftime('%Y-%m-%d',time.localtime(time.time()))
+    paperinfo=models.PaperInfo.objects.create(date=date,subjectid_id=subjectid,studentid_id=username,semester=1)
+    paperinfo.save()
+    
+    # generate papercontent
+    maxrecord=models.QuestionBank.objects.filter(flag=True).latest('questionid')
+    maxid=maxrecord.questionid
+
+    questionlist=[]
+    while len(questionlist)<3:
+        questionid=random.randint(1, maxid)
+        tempquestionid=models.QuestionBank.objects.get(flag=True,questionid=questionid)
+        if tempquestionid.subjectid_id==subjectid:
+            if questionid not in questionlist: 
+                    questionlist.append(questionid)
+                    papercontent=models.Paper_Content.objects.create(paperid_id=paperinfo.paperid,questionid_id=questionid)
+                    papercontent.save()
+
+    return paperinfo

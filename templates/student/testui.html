@@ -14,13 +14,19 @@
 
     <link href="../../static/bootstrapdist/css/bootstrap.min.css" rel="stylesheet">
     <link href="../../static/bootstrapdist/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
-    <link href="../../static/css/infoeditor.css" rel="stylesheet">
+    <link href="../../static/css/testui.css" rel="stylesheet">
     <link href="../../static/bootstraptable/bootstrap-table.css" rel="stylesheet">
     <link href="../../static/bootstraptable/bootstrap-table.min.css" rel="stylesheet">
 
   </head>
 
   <body>
+
+    <script type="text/javascript">  
+         function indexFormatter(value, row, index) {  
+              return index+1;  
+         }  
+    </script>  
     <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -68,13 +74,42 @@
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
                 
-                
-          
-          </div>
-        </div>
-      </div>
-    </div>
 
+                <table data-toggle="table" id="tb_subject" >
+                  <div class="panel-heading" style="font-size:50px;">选课情况</div>
+                  <thead>
+                    <tr>
+                      <th  data-field="index" data-formatter="indexFormatter" >Id</th> 
+                      <th >Username</th>
+                      <th>Subject Name</th>
+                      <th>Item</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    
+                    {% for subject in subjectlist %}
+                    <tr>
+                      <td></td>
+                      <td>{{ username }}</td>
+                      <td id="subjectname">{{ subject }}</td>
+                      <td><button type="button" class="btn btn-primary" id="testin">Go</button></td>   
+                      <!--按钮js没反应！！！！！！-->
+                    {% empty %}
+                      <td colspan="4">当前用户未选课</td>
+                    {% endfor %}
+                    </tr>
+                    
+                  </tbody>
+                </table>
+
+                
+   
+        </div>
+        </div>
+    </div>
+    
+
+    
 
 
     <div id="footer" class="container_footer">
@@ -97,7 +132,7 @@
 
     <script src="../../static/bootstrapdist/assets/js/ie-emulation-modes-warning.js"></script>
     <script src="../static/js/jquery-3.2.1.min.js"></script>
-    <script src="../../static/js/infoeditor-grades.js"></script>
+    <script src="../../static/js/testui.js"></script>
     <script src="../../static/bootstraptable/bootstrap-table.js"></script>
     <script src="../../static/bootstraptable/bootstrap-table.min.js"></script>
     <script src="../../static/bootstraptable/bootstrap-table-en-US.js"></script>

@@ -105,7 +105,7 @@ body {
 }
 
 .main {
-  padding: 0px;
+  padding: 20px;
 }
 @media (min-width: 768px) {
   .main {
@@ -146,7 +146,16 @@ img{
   color:#fff;
 }*/
 
-#progresscontainer{
-  position: relative;
-  margin-top:0px;
-}
+.modal-dialog{  
+    position:fixed;
+    top:10%;
+    left:0;
+    right:0;
+    bottom:0;
+    margin:auto;
+}  
+
+.table th, .table td {  
+text-align: center;  
+vertical-align: middle!important;  
+}  

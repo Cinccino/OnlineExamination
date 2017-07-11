@@ -45,11 +45,25 @@ urlpatterns = [
     url(r'^personalgrade/$', studentview.personalgrade),
     url(r'^testui/$', studentview.testui),
     url(r'^studentinfo/$', studentview.studentinfo),
+
+    url(r'^starttest/$', studentview.starttest),
+
     
     # data requests
+
     url(r'^asset_show_table_student/$',view.show_table_student), 
     url(r'^asset_show_table_teacher/$',view.show_table_teacher),
     url(r'^asset_show_table_grade/$',view.show_table_grade),
     url(r'^asset_show_table_questionbank/$',view.asset_show_table_questionbank),
     url(r'^aothertableview/$',view.aothertableview),
+    
+    # db manage solt
+
+    url(r'^databasetest/$',view.databasetest),
+    url(r'^btnaddrequest/$',view.btnaddrequest),
+    url(r'^btndeleterequest/$',view.btndeleterequest),
+    url(r'^btneditrequest/$',view.btneditrequest),
+
+    # function test
+    url(r'^makepapertest/$', studentview.makepapertest),
 ]
