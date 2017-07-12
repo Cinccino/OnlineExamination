@@ -129,3 +129,24 @@ def makepaper(username,subjectid):
                     papercontent.save()
 
     return paperinfo
+
+def saveanswers(paperid,questionid,answer,ischoice):
+    if ischoice=='0':
+        questionobj=models.Paper_Content.objects.get(paperid_id=paperid,questionid_id=questionid,flag=True)
+        questionobj.answer=answer
+        questionobj.save()
+        return "success"
+    elif ischoice=="1":
+        answer=answer.split(')')[1]
+        questionobj=models.Paper_Content.objects.get(paperid_id=paperid,questionid_id=questionid,flag=True)
+        questionobj.answer=answer
+        
+        questionbankobj=models.QuestionBank.objects.get(questionid=questionid)
+        if questionbankobj.answer==answer:
+            questionobj.score=questionbankobj.score
+        else:
+            questionobj.score=0
+        questionobj.save()
+        return "success"
+    else:
+        return "error ischoice val error"

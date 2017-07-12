@@ -235,40 +235,42 @@ def show_table_teacher(request):
         return JsonResponse(response_data)
 
 def show_table_grade(request):
-    
     if request.method == "GET":
-        print(request.GET)
+        username=request.COOKIES['userid']
+        print(username)
         limit = request.GET.get('limit')   # how many items per page
         offset = request.GET.get('offset')  # how many items in total in the DB
         search = request.GET.get('search')
         sort_column = request.GET.get('sort')   # which column need to sort
         order = request.GET.get('order')      # ascending or descending
-        # paperinfo=models.PaperInfo.objects.filter(studentid_id=search)
+        
+        sql='''select  onlinetest_paperinfo.paperid,onlinetest_student.username,onlinetest_student.name,onlinetest_subject.name,onlinetest_paperinfo.date,sum(onlinetest_paper_content.score)
+        from onlinetest_paperinfo,onlinetest_paper_content,onlinetest_subject,onlinetest_student
+        where onlinetest_paperinfo.subjectid_id=onlinetest_subject.subjectid
+        and   onlinetest_paper_content.paperid_id=onlinetest_paperinfo.paperid
+        and   onlinetest_paperinfo.studentid_id=onlinetest_student.username
+        group by onlinetest_paperinfo.paperid
+        '''  
+        all_records = functions.runsql(sql)   # must be wirte the line code here
 
-        # papers = models.Paper_Content.objects.filter(paperid=search)
+        all_records_count=len(all_records)
 
+        if not offset:
+            offset = 0
+        if not limit:
+            limit = 20    
 
-        # all_records = models.Teacher.objects.all() 
-
-        # all_records_count=all_records.count()
-
-        # if not offset:
-        #     offset = 0
-        # if not limit:
-        #     limit = 20    
-            
-        # page = int(int(offset) / int(limit) + 1)    
-        # response_data = {'total':all_records_count,'rows':[]}   
-        # for asset in all_records:    
-        #     response_data['rows'].append({
-        #         "username": asset.username,   
-        #         "name" : asset.name,
-        #         "paperid":asset.paperid,
-        #         "grade":asset.grade,
-        #     })
-        all_records_count=1
-        response_data = {'total':all_records_count,'rows':[]} 
-        response_data['rows'].append({ "username": "tenmp","name" : "tenmp","paperid":"tenmp","grade":"tenmp"})
+        page = int(int(offset) / int(limit) + 1)    
+        response_data = {'total':all_records_count,'rows':[]}   
+        for asset in all_records:    
+            response_data['rows'].append({
+                "paperid": asset[0],   
+                "username" : asset[1],
+                "name":asset[2],
+                "subjectname":asset[3],
+                "date":asset[4],
+                "grade":asset[5],
+            })
         return JsonResponse(response_data)
 
 
@@ -289,7 +291,7 @@ def asset_show_table_questionbank(request):
         '''   
         all_records = functions.runsql(sql)   # must be wirte the line code here
 
-        all_records_count=all_records.count()
+        all_records_count=len(all_records)
 
         if not offset:
             offset = 0
@@ -300,14 +302,55 @@ def asset_show_table_questionbank(request):
         response_data = {'total':all_records_count,'rows':[]}   
         for asset in all_records:    
             response_data['rows'].append({
-                "questionid": asset.questionid,   
-                "content" : asset.content,
-                "choice":asset.choice,
-                "answer":asset.answer,
-                "score":asset.score,
-                "subjectid_id":asset.subjectid_id,
+                "questionid": asset[0],   
+                "content" : asset[1],
+                "choice":asset[2],
+                "answer":asset[3],
+                "score":asset[4],
+                "subjectid_id":asset[5],
             })
         return JsonResponse(response_data)
+
+def studentgrade(request):
+    if request.method == "GET":
+        username=request.COOKIES['userid']
+        print(username)
+        limit = request.GET.get('limit')   # how many items per page
+        offset = request.GET.get('offset')  # how many items in total in the DB
+        search = request.GET.get('search')
+        sort_column = request.GET.get('sort')   # which column need to sort
+        order = request.GET.get('order')      # ascending or descending
+        
+        sql='''select  onlinetest_paperinfo.paperid,onlinetest_student.username,onlinetest_student.name,onlinetest_subject.name,onlinetest_paperinfo.date,sum(onlinetest_paper_content.score)
+        from onlinetest_paperinfo,onlinetest_paper_content,onlinetest_subject,onlinetest_student
+        where onlinetest_paperinfo.subjectid_id=onlinetest_subject.subjectid
+        and   onlinetest_paper_content.paperid_id=onlinetest_paperinfo.paperid
+        and   onlinetest_paperinfo.studentid_id=onlinetest_student.username
+        and   onlinetest_student.username=\''''+username+'\''+'''
+        group by onlinetest_paperinfo.paperid
+        '''  
+        all_records = functions.runsql(sql)   # must be wirte the line code here
+
+        all_records_count=len(all_records)
+
+        if not offset:
+            offset = 0
+        if not limit:
+            limit = 20    
+
+        page = int(int(offset) / int(limit) + 1)    
+        response_data = {'total':all_records_count,'rows':[]}   
+        for asset in all_records:    
+            response_data['rows'].append({
+                "paperid": asset[0],   
+                "username" : asset[1],
+                "name":asset[2],
+                "subjectname":asset[3],
+                "date":asset[4],
+                "grade":asset[5],
+            })
+        return JsonResponse(response_data)
+
 
 def databasetest(request):
     # grade search ex: (1, u'111', u'zsq', u'math', u'20170709', 10)  datafield problem unsolved
@@ -363,3 +406,20 @@ def btneditrequest(request):
             print(username)
         
         return HttpResponse('success') 
+
+
+def testsubmit(request):
+    if request.method=='POST':
+        print(request.POST)
+
+        ctx={}
+        username=request.COOKIES['userid']
+        print(username)
+        userinfo=functions.getteacherinfo(username)
+        ctx['username']=userinfo.username
+        ctx['name']=userinfo.name
+        ctx['pwd']=userinfo.pwd
+        ctx['mail']=userinfo.mail        
+        response=render_to_response('teacherinfo.html',ctx)
+        return response
+        # return HttpResponse("True") 

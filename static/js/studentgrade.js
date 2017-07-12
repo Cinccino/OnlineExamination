@@ -151,7 +151,7 @@ var TableInit = function () {
     //初始化Table
     oTableInit.Init = function () {
         $('#tb').bootstrapTable({
-            url: "/asset_show_table_student",         //请求后台的URL（*）
+            url: "/studentgrade/",               //请求后台的URL（*）
             method: 'get',                      //请求方式（*）
             toolbar: '#toolbar',                //工具按钮用哪个容器
             striped: true,                      //是否显示行间隔色
@@ -183,20 +183,30 @@ var TableInit = function () {
             columns: [{
                 checkbox: true
             }, {
-                field: 'username',
-                title: '用户名',
+                field: 'paperid',
+                title: '试卷号',
                 sortable: true,
                 
             }, {
+                field: 'username',
+                title: '学号',
+                sortable: true,
+            }, {
                 field: 'name',
-                title: '名字'
+                title: '姓名'
             }, {
-                field: '',
-                title: '密码'
+                field: 'subjectname',
+                title: '科目'
             }, {
-                field: 'mail',
-                title: '邮箱'
-            }, ]
+                field: 'date',
+                title: '日期',
+                sortable: true,
+            },{
+                field: 'grade',
+                title: '分数',
+                sortable: true,
+            },
+            ]
         });
     };
 

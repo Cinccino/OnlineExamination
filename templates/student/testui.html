@@ -22,11 +22,7 @@
 
   <body>
 
-    <script type="text/javascript">  
-         function indexFormatter(value, row, index) {  
-              return index+1;  
-         }  
-    </script>  
+    
     <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -75,7 +71,7 @@
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
                 
 
-                <table data-toggle="table" id="tb_subject" >
+                <table data-toggle="table" id="tb_subject" id='tb_subject'>
                   <div class="panel-heading" style="font-size:50px;">选课情况</div>
                   <thead>
                     <tr>
@@ -88,11 +84,16 @@
                   <tbody>
                     
                     {% for subject in subjectlist %}
+                      <script type="text/javascript">  
+                          function indexFormatter(value, row, index) {  
+                                return index+1;  
+                          }  
+                      </script>  
                     <tr>
                       <td></td>
                       <td>{{ username }}</td>
                       <td id="subjectname">{{ subject }}</td>
-                      <td><button type="button" class="btn btn-primary" id="testin">Go</button></td>   
+                      <td><button type="button" class="btn btn-primary" id="testin" onclick="myFunction(this)" >Go</button></td>   
                       <!--按钮js没反应！！！！！！-->
                     {% empty %}
                       <td colspan="4">当前用户未选课</td>

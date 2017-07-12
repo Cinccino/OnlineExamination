@@ -1,4 +1,46 @@
 
+$("#dialogsubmit").click(function () {
+
+    var username = $("#inputusername").val();//document.getElementById("inputusername");
+    var name = $("#inputname").val();
+    var pwd = $("#inputpwd").val();
+    var email = $("#inputemail").val();
+    var major = $("#inputmajor").val();
+
+    if(email.indexOf("@") == -1){  
+              
+            alert("请输入正确的email地址");
+            inputemail.focus();
+            return; 
+    }
+    else if (username && name && pwd && email && major)
+        {
+            $.post("/btnaddrequest/",  
+            {  
+            username:username, 
+            name:name,
+            pwd:pwd,
+            email:email,
+            major:major,
+            form:"teacher",
+            },
+            function(data)
+                { 
+                // var dialog=document.getElementById("modal-add")
+                // dialog.close();
+                //$("#modal-add").hide();
+                alert( data );
+                }
+            )
+        }
+    else
+        {
+            alert("error!"); 
+        }
+
+});
+
+
 $(function () {
 
     //1.初始化Table
@@ -18,14 +60,14 @@ var TableInit = function () {
     var oTableInit = new Object();
     //初始化Table
     oTableInit.Init = function () {
-        $('#tb_departments').bootstrapTable({
+        $('#tb').bootstrapTable({
             url: '/asset_show_table_teacher',         //请求后台的URL（*）
             method: 'get',                      //请求方式（*）
             toolbar: '#toolbar',                //工具按钮用哪个容器
             striped: true,                      //是否显示行间隔色
             cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
             pagination: true,                   //是否显示分页（*）
-            sortable: false,                     //是否启用排序
+            sortable: true,                     //是否启用排序
             sortOrder: "asc",                   //排序方式
             queryParams: oTableInit.queryParams,//传递参数（*）
             sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
@@ -47,7 +89,8 @@ var TableInit = function () {
                 checkbox: true
             }, {
                 field: 'username',
-                title: '用户名'
+                title: '用户名',
+                sortable: true,
             }, {
                 field: 'name',
                 title: '名字'
@@ -80,6 +123,30 @@ var ButtonInit = function () {
 
     oInit.Init = function () {
         //初始化页面上面的按钮事件
+        $("#btn_delete").click(function () {
+                var result = $('#tb').bootstrapTable('getSelections');  
+    
+                var ids = [];  
+                for (var i = 0; i < result.length; i++) {  
+                    var item = result[i];  
+                    ids.push(item.username);  
+                }  
+
+                if (ids.length <1 ) {
+                    alert("未选中行!");
+                    return; 
+                }
+                $.post("/btndeleterequest/",  
+                {  
+                usersets:ids, 
+                form:"teacher",
+                },  
+                function(data){  
+                alert( data );  
+                });
+
+            });     
+
     };
 
     return oInit;

@@ -23,9 +23,9 @@ urlpatterns = [
     url(r'^login/$', view.loginpage),
     url(r'^logout/$', view.logout),
 
-    url(r'^admin_main/$', adminview.admin_main),
-    url(r'^student_main/$', studentview.student_main),
-    url(r'^teacher_main/$', teacherview.teacher_main),
+    url(r'^admin_main$', adminview.admin_main),
+    url(r'^student_main$', studentview.student_main),
+    url(r'^teacher_main$', teacherview.teacher_main),
     
 
     # function page 
@@ -37,25 +37,26 @@ urlpatterns = [
     url(r'^settings/$', adminview.settings),
     url(r'^admininfo/$', adminview.admininfo),
 
-    url(r'^tgradetable/$', teacherview.tgradetable),
-    url(r'^teachersubjects/$', teacherview.teachersubjects),
-    url(r'^judgepaper/$', teacherview.judgepaper),
-    url(r'^teacherinfo/$', teacherview.teacherinfo),
+    url(r'^tgradetable$', teacherview.tgradetable),
+    url(r'^teachersubjects$', teacherview.teachersubjects),
+    url(r'^judgepaper$', teacherview.judgepaper),
+    url(r'^teacherinfo$', teacherview.teacherinfo),
 
-    url(r'^personalgrade/$', studentview.personalgrade),
-    url(r'^testui/$', studentview.testui),
-    url(r'^studentinfo/$', studentview.studentinfo),
+    url(r'^personalgrade$', studentview.personalgrade),
+    url(r'^testui$', studentview.testui),
+    url(r'^studentinfo$', studentview.studentinfo),
 
-    url(r'^starttest/$', studentview.starttest),
-
+    url(r'^starttest$', studentview.starttest),
+    url(r'^submitanswer$', studentview.submitanswer),
     
     # data requests
 
-    url(r'^asset_show_table_student/$',view.show_table_student), 
-    url(r'^asset_show_table_teacher/$',view.show_table_teacher),
-    url(r'^asset_show_table_grade/$',view.show_table_grade),
-    url(r'^asset_show_table_questionbank/$',view.asset_show_table_questionbank),
+    url(r'^asset_show_table_student$',view.show_table_student), 
+    url(r'^asset_show_table_teacher$',view.show_table_teacher),
+    url(r'^asset_show_table_grade$',view.show_table_grade),
+    url(r'^asset_show_table_questionbank$',view.asset_show_table_questionbank),
     url(r'^aothertableview/$',view.aothertableview),
+    url(r'^studentgrade/$',view.studentgrade),
     
     # db manage solt
 
@@ -66,4 +67,6 @@ urlpatterns = [
 
     # function test
     url(r'^makepapertest/$', studentview.makepapertest),
+    url(r'^setsubjectcookie/$', studentview.setsubjectcookie),
+    url(r'^testsubmit$', view.testsubmit),
 ]

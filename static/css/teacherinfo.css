@@ -18,33 +18,31 @@ body {
   padding-top: 50px;
   height: 100%;
   background-color: #fff;
-
 }
 body {
   color: #333;
   text-align: center;
   /*text-shadow: 0 1px 3px rgba(0,0,0,.5);*/
-  padding-bottom: 200px;
-  font-size:20px
 }
 
-#contentleft {
-  color: #333;
-  text-align: left;
-  /*text-shadow: 0 1px 3px rgba(0,0,0,.5);*/
+.main a{
+    color:#333;
+    font-size: 50px;
 }
+
 .starter-template {
   /*padding: 40px 15px;*/
   text-align: center;
 }
 
-/*.footer {
-  position: fixed;
+.footer {
+  position: absolute;
   bottom: 0;
   width: 100%;
+  /* Set the fixed height of the footer here */
   height: 60px;
   background-color: #f5f5f5;
-}*/
+}
 
 .jumbotron {
   position: absolute;
@@ -152,22 +150,3 @@ img{
 /*#usertag{
   color:#fff;
 }*/
-
-.modal-dialog{  
-    position:fixed;
-    top:10%;
-    left:0;
-    right:0;
-    bottom:0;
-    margin:auto;
-}  
-
-.table th, .table td {  
-text-align: center;  
-vertical-align: middle!important;  
-}  
-
-#footerblank{
-  padding: 60px;
-  height:180px;
-}

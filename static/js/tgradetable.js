@@ -18,14 +18,14 @@ var TableInit = function () {
     var oTableInit = new Object();
     //初始化Table
     oTableInit.Init = function () {
-        $('#tb_departments').bootstrapTable({
+        $('#tb').bootstrapTable({
             url: '/asset_show_table_grade',         //请求后台的URL（*）
             method: 'get',                      //请求方式（*）
             toolbar: '#toolbar',                //工具按钮用哪个容器
             striped: true,                      //是否显示行间隔色
             cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
             pagination: true,                   //是否显示分页（*）
-            sortable: false,                     //是否启用排序
+            sortable: true,                     //是否启用排序
             sortOrder: "asc",                   //排序方式
             queryParams: oTableInit.queryParams,//传递参数（*）
             sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
@@ -46,18 +46,30 @@ var TableInit = function () {
             columns: [{
                 checkbox: true
             }, {
+                field: 'paperid',
+                title: '试卷号',
+                sortable: true,
+                
+            }, {
                 field: 'username',
-                title: '用户名'
+                title: '学号',
+                sortable: true,
             }, {
                 field: 'name',
-                title: '名字'
+                title: '姓名'
             }, {
-                field: 'paperid',
-                title: '试卷号'
+                field: 'subjectname',
+                title: '科目'
             }, {
+                field: 'date',
+                title: '日期',
+                sortable: true,
+            },{
                 field: 'grade',
-                title: '成绩'
-            }, ]
+                title: '分数',
+                sortable: true,
+            },
+            ]
         });
     };
 

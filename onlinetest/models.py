@@ -72,7 +72,7 @@ class QuestionBank(models.Model):
     choice = models.CharField(max_length=100,null=True)
     content = models.CharField(max_length=100)
     answer = models.CharField(max_length=100)
-    score = models.CharField(max_length=20)
+    score = models.SmallIntegerField(max_length=20)
     flag=models.BooleanField(default=True)
     # concering add flag to figure subjective
     class Meta:
@@ -101,7 +101,7 @@ class Paper_Content(models.Model):
     paperid = models.ForeignKey(PaperInfo, related_name='PF_Paper')
     questionid = models.ForeignKey(QuestionBank, related_name='PF_Question')
     answer = models.CharField(max_length=20,null=True)
-    score = models.CharField(max_length=20,null=True)
+    score = models.SmallIntegerField (max_length=20,null=True)
     flag=models.BooleanField(default=True)
     class Meta:
         verbose_name=('papercontent')

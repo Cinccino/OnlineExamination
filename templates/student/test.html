@@ -56,7 +56,7 @@
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
             <div class="picurl">
-                <a href="/student_main">
+                <a href="/student_main/">
                     <img src="../../static/resources/admin-circle.png" alt="pic" class="img-circle">
                 </a>
             </div>
@@ -74,7 +74,7 @@
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id="contentleft">
-                
+                <label class="hidden" id="paperidlabel">{{ paperid }}</label>
                 <div class="row clearfix">
                     <div class="col-md-1 column">
                     </div>
@@ -98,29 +98,30 @@
                                     </select>
                                 </div>
                                 <div class="col-md-1 column">
-                                    <button class="btn btn-default" type="submit">Button</button>
-                                    
+                                    <button class="btn btn-default" type="submit" onclick="myFunction(this)">Save</button>
+                                    <label class="hidden">{{ question.questionid }}</label>
+                                    <label class="hidden">{{ question.ischoice }}</label> 
                                 </div>
                             </div>
                             
                             <div class="row clearfix">
-                                <div class="col-md-12 column">
-                                    {{  question.choice.0  }}
+                                <div class="col-md-12 column sectiona" name="choice">
+                                    A){{  question.choice.0  }}
                                 </div>
                             </div>
                             <div class="row clearfix">
-                                <div class="col-md-12 column">
-                                    {{  question.choice.1  }}
+                                <div class="col-md-12 column sectionb" name="choice">
+                                    B){{  question.choice.1  }}
                                 </div>
                             </div>
                             <div class="row clearfix">
-                                <div class="col-md-12 column">
-                                    {{  question.choice.2   }}
+                                <div class="col-md-12 column sectionc" name="choice">
+                                    C){{  question.choice.2   }}
                                 </div>
                             </div>
                             <div class="row clearfix">
-                                <div class="col-md-12 column">
-                                    {{  question.choice.3  }}
+                                <div class="col-md-12 column sectiond" name="choice">
+                                    D){{  question.choice.3  }}
                                 </div>
                             </div>
                         </div>
@@ -128,6 +129,7 @@
                         
                         {% else %}
                         <div class="panel-heading" style="font-size:50px;">{{ question.num }}</div>
+                        
                         <div class="container">
                             <div class="row clearfix">
                                 <div class="col-md-6 column">
@@ -143,10 +145,13 @@
                                 <div class="col-md-8 column">
                                     
                                     <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Answer here">
+                                        
+                                        <input type="text" class="form-control" placeholder="Answer here" >
                                         <span class="input-group-btn">
-                                            <button class="btn btn-default" type="button">Go!</button>
-                                        </span>                                    
+                                            <button class="btn btn-default" type="button" onclick="myFunction(this)">Save</button>
+                                            <label class="hidden">{{ question.questionid }}</label>
+                                            <label class="hidden">{{ question.ischoice }}</label>
+                                        </span>                                 
                                     </div><!-- /input-group -->
                                 </div>
                             </div>
@@ -155,7 +160,7 @@
                         {% endif %}
 
                     {% empty %}
-                      <h1 style="font-size:80px;">未知错误</h1>
+                      <h1 style="font-size:80px;">Error</h1>
                     {% endfor %}
 
 
@@ -201,7 +206,7 @@
 
     <script src="../../static/bootstrapdist/assets/js/ie-emulation-modes-warning.js"></script>
     <script src="../static/js/jquery-3.2.1.min.js"></script>
-    <script src="../../static/js/testui.js"></script>
+    <script src="../../static/js/test.js"></script>
     <script src="../../static/bootstraptable/bootstrap-table.js"></script>
     <script src="../../static/bootstraptable/bootstrap-table.min.js"></script>
     <script src="../../static/bootstraptable/bootstrap-table-en-US.js"></script>
