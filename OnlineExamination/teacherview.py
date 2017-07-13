@@ -50,6 +50,7 @@ def teachersubjects(request):
 
 
 def judgepaper(request):
+    
     ctx={}
     username=request.COOKIES['userid']
     print(username)
@@ -57,7 +58,19 @@ def judgepaper(request):
     ctx['username']=userinfo.username
     ctx['name']=userinfo.name
     ctx['pwd']=userinfo.pwd
-    ctx['mail']=userinfo.mail        
+    ctx['mail']=userinfo.mail
+    
+    
+    result=list()
+    questionelement=dict()
+    questionelement['num']=1
+    questionelement['questionid']="this is id"
+    questionelement['content']="this is a ui preview"
+    questionelement['answer']='example'
+    result.append(questionelement)
+    ctx['questionlist']=result
+
+
     response=render_to_response('judgepaper.html',ctx)
     return response
 

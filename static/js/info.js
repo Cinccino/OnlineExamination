@@ -20,6 +20,8 @@ $(function () {
             }
         });
 
+        $('#username').mode()
+
 });
 
 

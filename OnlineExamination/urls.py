@@ -23,7 +23,7 @@ urlpatterns = [
     url(r'^login/$', view.loginpage),
     url(r'^logout/$', view.logout),
 
-    url(r'^admin_main$', adminview.admin_main),
+    url(r'^admin_main/$', adminview.admin_main),
     url(r'^student_main$', studentview.student_main),
     url(r'^teacher_main$', teacherview.teacher_main),
     
@@ -42,8 +42,8 @@ urlpatterns = [
     url(r'^judgepaper$', teacherview.judgepaper),
     url(r'^teacherinfo$', teacherview.teacherinfo),
 
-    url(r'^personalgrade$', studentview.personalgrade),
-    url(r'^testui$', studentview.testui),
+    url(r'^personalgrade/$', studentview.personalgrade),
+    url(r'^testui/$', studentview.testui),
     url(r'^studentinfo$', studentview.studentinfo),
 
     url(r'^starttest$', studentview.starttest),

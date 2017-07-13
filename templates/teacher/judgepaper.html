@@ -60,15 +60,56 @@
             <li class="active"><a href="/judgepaper">Judge Paper<span class="sr-only" id="studenttabletag">(current)</span></a></li>
 
           </ul>
-          <ul class="nav nav-sidebar">
+          <!-- <ul class="nav nav-sidebar">
             <li><a href="/teacherinfo">Personal Info</a></li>
-          </ul>
+          </ul> -->
           <ul class="nav nav-sidebar">
             <li><a href="/teacher_main">Return</a></li>
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
                 
+                <label class="hidden" id="paperidlabel">{{ paperid }}</label>
+                <div class="row clearfix">
+                    <div class="col-md-1 column">
+                    </div>
+                    <div class="col-md-9 column">
+                     {% for question in questionlist %}
+                   
+                      <div class="panel-heading" style="font-size:50px;">{{ question.num }}</div>
+                      <div class="container">
+                     
+                            <div class="row clearfix">
+                                <div class="col-md-6 column">
+                                    {{  question.content  }}
+                                </div>
+                  
+                                <div class="col-md-2 column">
+                                    <div class="input-group">
+                                        
+                                        <input type="text" class="form-control" placeholder="Answer here" >
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" onclick="myFunction(this)">Save</button>
+                                            <label class="hidden">{{ question.questionid }}</label>
+                                        </span>                                 
+                                    </div><!-- /input-group -->
+                                </div>
+                            </div>     
+                              
+                            <div class="row clearfix">
+                              <div class="col-md-6 column">
+                                {{  question.answer  }}
+                              </div> 
+                            </div>                  
+                            
+                    </div>
+                    <div class="col-md-2 column">
+                    </div>
+
+                    {% empty %}
+                      <h1 style="font-size:80px;">Error</h1>
+                    {% endfor %}
+                </div>
                 
           
           </div>

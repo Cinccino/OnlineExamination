@@ -20,7 +20,8 @@
 
     <!-- Custom styles for this template -->
     <link href="../../static/css/admin-main.css" rel="stylesheet">
-
+    
+    <link href="../../static/bootstrapeditable/css/bootstrap-editable.css" rel="stylesheet">
 
 
   </head>
@@ -74,9 +75,30 @@
                           </h2>
                         </div>
                         <div class="modal-body">
-                         <p>用户名：{{ username }}</p>
+
+                          <div class="row clearfix">
+                            <div class="col-md-6 column">
+                                <p >用户名:</p>
+                            </div>
+                            <div class="col-md-6 column">
+                                <a href="#" id="username">用户名</a>
+                            </div>
+                          </div>
+
+                          <div class="row clearfix">
+                            <div class="col-md-6 column">
+                                <p >用户名:</p>
+                            </div>
+                            <div class="col-md-6 column">
+                                <a href="#" id="username2">用户名</a>
+                            </div>
+                          </div>
+
+
+                         <!-- <p>用户名：{{ username }}</p>
                          <p>姓名：{{ name }}</p>
-                         <p>邮箱：{{ mail }}</p>
+                         <p>邮箱：{{ mail }}</p> -->
+
                         </div>
                         <div class="modal-footer">
                             <button type="button"  style="width:70px;height:50px;" class="btn btn-default " data-dismiss="modal">ok</button> 
@@ -92,7 +114,7 @@
             </div>      
           </div>
 
-          
+
 
 
         </div>
@@ -128,7 +150,7 @@
             </div>
           </div>
 
-          <div class="row clearfix">
+          <!-- <div class="row clearfix">
             <div class="col-md-6 column">
               <h1>
 						    个人信息管理
@@ -139,7 +161,7 @@
                  <a class="btn btn-lg btn-primary btn-block " href="/teacherinfo" role="button" ><span class="glyphicon glyphicon-chevron-right" aria-hidden="true" ></span></a>
               </div>
             </div>
-          </div>
+          </div> -->
           
         </div>
 
@@ -169,5 +191,23 @@
     <script src="../../static/bootstrapdist/assets/js/ie10-viewport-bug-workaround.js"></script>
 
     <script src="../../static/bootstrapdist/assets/js/ie-emulation-modes-warning.js"></script>
+
+    <script src="../../static/bootstrapdist/assets/js/teachermain.js"></script>
+
+    <script type="text/javascript" src="../../static/bootstrapeditable/js/bootstrap-editable.js"></script>
+    <script type="text/javascript" src="../../static/bootstrapeditable/js/bootstrap-editable.min.js"></script>
+
+    <script src="../../static/bootstrapdist/assets/js/ie-emulation-modes-warning.js"></script>
+    <script src="../static/js/jquery-3.2.1.min.js"></script>
+    <script src="../../static/js/info.js"></script>
+    <script src="../../static/bootstraptable/bootstrap-table.js"></script>
+    <script src="../../static/bootstraptable/bootstrap-table.min.js"></script>
+    <script src="../../static/bootstraptable/bootstrap-table-en-US.js"></script>
+    <script src="../../static/bootstraptable/bootstrap-table-zh-CN.js"></script>
+
+    <script type="text/javascript" src="../../static/bootstrapvalidator-master/js/bootstrapValidator.js"></script>
+    <script type="text/javascript" src="../../static/bootstrapvalidator-master/js/bootstrapValidator.min.js"></script>
+    <script type="text/javascript" src="../../static/bootstrapvalidator-master/js/en_US.js"></script>
+    <script type="text/javascript" src="../../static/bootstrapvalidator-master/js/zh_CN.min.js"></script>
   </body>
 </html>
