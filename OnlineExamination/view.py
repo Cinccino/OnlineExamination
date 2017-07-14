@@ -208,13 +208,19 @@ def show_table_teacher(request):
         limit = request.GET.get('limit')   # how many items per page
         offset = request.GET.get('offset')  # how many items in total in the DB
         search = request.GET.get('search')
-        sort_column = request.GET.get('sort')   # which column need to sort
+        sort_column = request.GET.get('ordername')   # which column need to sort
         order = request.GET.get('order')      # ascending or descending
+        
         if search:    #    
-            all_records = models.Teacher.objects.filter(usrename=search,flag=True)
+            all_records = models.Teacher.objects.filter(username=str(search),flag=True)
         else:
             all_records = models.Teacher.objects.filter(flag=True)   # must be wirte the line code here
-
+        print(sort_column)
+        if sort_column:
+            if sort_column=="username":
+                if order == 'desc':
+                    all_records = models.Teacher.objects.filter(flag=True).order_by(sort_column)
+                    
         all_records_count=all_records.count()
 
         if not offset:
@@ -237,11 +243,11 @@ def show_table_teacher(request):
 def show_table_grade(request):
     if request.method == "GET":
         username=request.COOKIES['userid']
-        print(username)
+        print(request.GET)
         limit = request.GET.get('limit')   # how many items per page
         offset = request.GET.get('offset')  # how many items in total in the DB
         search = request.GET.get('search')
-        sort_column = request.GET.get('sort')   # which column need to sort
+        sort_column = request.GET.get('ordername')   # which column need to sort
         order = request.GET.get('order')      # ascending or descending
         
         sql='''select  onlinetest_paperinfo.paperid,onlinetest_student.username,onlinetest_student.name,onlinetest_subject.name,onlinetest_paperinfo.date,sum(onlinetest_paper_content.score)
@@ -251,6 +257,38 @@ def show_table_grade(request):
         and   onlinetest_paperinfo.studentid_id=onlinetest_student.username
         group by onlinetest_paperinfo.paperid
         '''  
+
+        if search:    #    
+            sql = '''select  onlinetest_paperinfo.paperid,onlinetest_student.username,onlinetest_student.name,onlinetest_subject.name,onlinetest_paperinfo.date,sum(onlinetest_paper_content.score)
+        from onlinetest_paperinfo,onlinetest_paper_content,onlinetest_subject,onlinetest_student
+        where onlinetest_paperinfo.subjectid_id=onlinetest_subject.subjectid
+        and   onlinetest_paper_content.paperid_id=onlinetest_paperinfo.paperid
+        and   onlinetest_paperinfo.studentid_id=onlinetest_student.username
+        and   onlinetest_student.username='''+'\''+str(search)+'\''+'''
+        group by onlinetest_paperinfo.paperid
+        '''  
+        
+
+        print(sort_column)
+        if sort_column:
+            
+            if sort_column=="username":
+                if order == 'desc':
+                    sql=sql+''' order by onlinetest_student.username desc'''
+
+            if sort_column=="paperid":
+                if order == 'desc':
+                    sql=sql+''' order by  onlinetest_paperinfo.paperid desc'''
+
+            if sort_column=="date":
+                if order == 'desc':
+                    sql=sql+''' order by  onlinetest_paperinfo.date desc'''
+
+            if sort_column=="grade":
+                if order == 'desc':
+                    sql=sql+''' order by  sum(onlinetest_paper_content.score) desc'''
+
+
         all_records = functions.runsql(sql)   # must be wirte the line code here
 
         all_records_count=len(all_records)
@@ -281,14 +319,24 @@ def asset_show_table_questionbank(request):
         limit = request.GET.get('limit')   # how many items per page
         offset = request.GET.get('offset')  # how many items in total in the DB
         search = request.GET.get('search')
-        sort_column = request.GET.get('sort')   # which column need to sort
+        sort_column = request.GET.get('ordername')   # which column need to sort
         order = request.GET.get('order')      # ascending or descending
         
         sql='''
         select  questionid,content,choice,answer,score,onlinetest_subject.name
         from onlinetest_subject,onlinetest_questionbank
         where onlinetest_questionbank.subjectid_id=onlinetest_subject.subjectid
+        order by questionid
         '''   
+        print(search)
+        if search: 
+             sql='''
+        select  questionid,content,choice,answer,score,onlinetest_subject.name
+        from onlinetest_subject,onlinetest_questionbank
+        where onlinetest_questionbank.subjectid_id=onlinetest_subject.subjectid
+        and   questionid='''+str(search)
+
+
         all_records = functions.runsql(sql)   # must be wirte the line code here
 
         all_records_count=len(all_records)
@@ -314,11 +362,11 @@ def asset_show_table_questionbank(request):
 def studentgrade(request):
     if request.method == "GET":
         username=request.COOKIES['userid']
-        print(username)
+        print(request.GET)
         limit = request.GET.get('limit')   # how many items per page
         offset = request.GET.get('offset')  # how many items in total in the DB
         search = request.GET.get('search')
-        sort_column = request.GET.get('sort')   # which column need to sort
+        sort_column = request.GET.get('ordername')   # which column need to sort
         order = request.GET.get('order')      # ascending or descending
         
         sql='''select  onlinetest_paperinfo.paperid,onlinetest_student.username,onlinetest_student.name,onlinetest_subject.name,onlinetest_paperinfo.date,sum(onlinetest_paper_content.score)
@@ -329,6 +377,28 @@ def studentgrade(request):
         and   onlinetest_student.username=\''''+username+'\''+'''
         group by onlinetest_paperinfo.paperid
         '''  
+        print(sort_column)
+        
+        if sort_column:
+            
+            if sort_column=="username":
+                if order == 'desc':
+                    sql=sql+''' order by onlinetest_student.username desc'''
+
+            if sort_column=="paperid":
+                if order == 'desc':
+                    sql=sql+''' order by  onlinetest_paperinfo.paperid desc'''
+
+            if sort_column=="date":
+                if order == 'desc':
+                    sql=sql+''' order by  onlinetest_paperinfo.date desc'''
+
+            if sort_column=="grade":
+                if order == 'desc':
+                    sql=sql+''' order by  sum(onlinetest_paper_content.score) desc'''
+
+
+
         all_records = functions.runsql(sql)   # must be wirte the line code here
 
         all_records_count=len(all_records)
@@ -338,7 +408,7 @@ def studentgrade(request):
         if not limit:
             limit = 20    
 
-        page = int(int(offset) / int(limit) + 1)    
+        page = int(int(offset) / int(limit) + 1)
         response_data = {'total':all_records_count,'rows':[]}   
         for asset in all_records:    
             response_data['rows'].append({

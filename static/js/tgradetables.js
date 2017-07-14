@@ -1,46 +1,4 @@
 
-$("#dialogsubmit").click(function () {
-
-    var username = $("#inputusername").val();//document.getElementById("inputusername");
-    var name = $("#inputname").val();
-    var pwd = $("#inputpwd").val();
-    var email = $("#inputemail").val();
-    var major = $("#inputmajor").val();
-
-    if(email.indexOf("@") == -1){  
-              
-            alert("请输入正确的email地址");
-            inputemail.focus();
-            return; 
-    }
-    else if (username && name && pwd && email && major)
-        {
-            $.post("/btnaddrequest/",  
-            {  
-            username:username, 
-            name:name,
-            pwd:pwd,
-            email:email,
-            major:major,
-            form:"teacher",
-            },
-            function(data)
-                { 
-                // var dialog=document.getElementById("modal-add")
-                // dialog.close();
-                //$("#modal-add").hide();
-                alert( data );
-                }
-            )
-        }
-    else
-        {
-            alert("error!"); 
-        }
-
-});
-
-
 $(function () {
 
     //1.初始化Table
@@ -61,7 +19,7 @@ var TableInit = function () {
     //初始化Table
     oTableInit.Init = function () {
         $('#tb').bootstrapTable({
-            url: '/asset_show_table_teacher',         //请求后台的URL（*）
+            url: '/asset_show_table_grade',         //请求后台的URL（*）
             method: 'get',                      //请求方式（*）
             toolbar: '#toolbar',                //工具按钮用哪个容器
             striped: true,                      //是否显示行间隔色
@@ -88,19 +46,30 @@ var TableInit = function () {
             columns: [{
                 checkbox: true
             }, {
+                field: 'paperid',
+                title: '试卷号',
+                sortable: true,
+                
+            }, {
                 field: 'username',
-                title: '用户名',
+                title: '学号',
                 sortable: true,
             }, {
                 field: 'name',
-                title: '名字'
+                title: '姓名'
             }, {
-                field: 'pwd',
-                title: '密码'
+                field: 'subjectname',
+                title: '科目'
             }, {
-                field: 'mail',
-                title: '邮箱'
-            }, ]
+                field: 'date',
+                title: '日期',
+                sortable: true,
+            },{
+                field: 'grade',
+                title: '分数',
+                sortable: true,
+            },
+            ]
         });
     };
 
@@ -110,6 +79,9 @@ var TableInit = function () {
             limit: params.limit,   //页面大小
             offset: params.offset,  //页码
             username: $("#txt_search_departmentname").val(),
+            search:params.search,
+            order: params.order,
+            ordername: params.sort,
         };
         return temp;
     };
@@ -123,30 +95,6 @@ var ButtonInit = function () {
 
     oInit.Init = function () {
         //初始化页面上面的按钮事件
-        $("#btn_delete").click(function () {
-                var result = $('#tb').bootstrapTable('getSelections');  
-    
-                var ids = [];  
-                for (var i = 0; i < result.length; i++) {  
-                    var item = result[i];  
-                    ids.push(item.username);  
-                }  
-
-                if (ids.length <1 ) {
-                    alert("未选中行!");
-                    return; 
-                }
-                $.post("/btndeleterequest/",  
-                {  
-                usersets:ids, 
-                form:"teacher",
-                },  
-                function(data){  
-                alert( data );  
-                });
-
-            });     
-
     };
 
     return oInit;

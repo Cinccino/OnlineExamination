@@ -91,21 +91,26 @@ def startjudgepaper(request):
         ctx['pwd']=userinfo.pwd
         ctx['mail']=userinfo.mail
 
-        sql=''' select onlinetest_paper_content.paperid_id,onlinetest_paper_content.questionid_id,onlinetest_paper_content.answer
-        from onlinetest_paper_content,onlinetest_paperinfo,onlinetest_subject
+        sql=''' select onlinetest_paper_content.paperid_id,onlinetest_paper_content.questionid_id,onlinetest_questionbank.content,onlinetest_paper_content.answer
+        from onlinetest_paper_content,onlinetest_paperinfo,onlinetest_subject,onlinetest_questionbank
         where onlinetest_paper_content.paperid_id=onlinetest_paperinfo.paperid
         and   onlinetest_paperinfo.subjectid_id=onlinetest_subject.subjectid
+        and   onlinetest_questionbank.questionid=onlinetest_paper_content.questionid_id
         and   onlinetest_subject.name='''+'\''+subjectname+'\''+'''
-        and   onlinetest_paperinfo.studentid_id='''+'\''+username+'\''+'''
+        and   onlinetest_paper_content.score is null
         '''
-
+        questionlist=functions.runsql(sql)
         result=list()
-        questionelement=dict()
-        questionelement['num']=1
-        questionelement['questionid']="this is id"
-        questionelement['content']="this is a ui preview"
-        questionelement['answer']='example'
-        result.append(questionelement)
+        i=1
+        for item in questionlist:
+            questionelement=dict()
+            questionelement['num']=i
+            questionelement['questionid']=item[1]
+            questionelement['content']=item[2]
+            questionelement['answer']=item[3]
+            questionelement['paperid']=item[0]
+            result.append(questionelement)
+            i=i+1
         ctx['questionlist']=result
 
         response=render_to_response('judgepaperfun.html',ctx)
@@ -122,3 +127,15 @@ def teacherinfo(request):
     ctx['mail']=userinfo.mail        
     response=render_to_response('teacherinfo.html',ctx)
     return response
+
+
+def submitscore(request):
+    if request.method == "POST":
+        print(request.POST)
+        paperid = request.POST.get('paperid') 
+        questionid = request.POST.get('questionid') 
+        score = request.POST.get('score') 
+        msg=functions.updatescore(paperid,questionid,score)
+        return HttpResponse(msg)
+    else:
+        return HttpResponse("error")

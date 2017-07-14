@@ -19,7 +19,7 @@ var TableInit = function () {
     //初始化Table
     oTableInit.Init = function () {
         $('#tb_departments').bootstrapTable({
-            url: '/asset_show_table_grade',         //请求后台的URL（*）
+            url: '/asset_show_table_questionbank',         //请求后台的URL（*）
             method: 'get',                      //请求方式（*）
             toolbar: '#toolbar',                //工具按钮用哪个容器
             striped: true,                      //是否显示行间隔色
@@ -46,28 +46,23 @@ var TableInit = function () {
             columns: [{
                 checkbox: true
             }, {
-                field: 'paperid',
-                title: '试卷号',
-                sortable: true,
-                
+                field: 'questionid',
+                title: '题目编号'
             }, {
-                field: 'username',
-                title: '学号',
-                sortable: true,
+                field: 'content',
+                title: '题干'
             }, {
-                field: 'name',
-                title: '姓名'
+                field: 'choice',
+                title: '选项'
             }, {
-                field: 'subjectname',
-                title: '科目'
+                field: 'answer',
+                title: '答案'
             }, {
-                field: 'date',
-                title: '日期',
-                sortable: true,
+                field: 'score',
+                title: '分数'
             },{
-                field: 'grade',
-                title: '分数',
-                sortable: true,
+                field: 'subjectid_id',
+                title: '科目'
             },
             ]
         });
@@ -79,6 +74,9 @@ var TableInit = function () {
             limit: params.limit,   //页面大小
             offset: params.offset,  //页码
             username: $("#txt_search_departmentname").val(),
+            search:params.search,
+            order: params.order,
+            ordername: params.sort,
         };
         return temp;
     };

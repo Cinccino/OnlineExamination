@@ -14,7 +14,7 @@
 
     <link href="../../static/bootstrapdist/css/bootstrap.min.css" rel="stylesheet">
     <link href="../../static/bootstrapdist/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
-    <link href="../../static/css/judgepaper.css" rel="stylesheet">
+    <link href="../../static/css/tests.css" rel="stylesheet">
     <link href="../../static/bootstraptable/bootstrap-table.css" rel="stylesheet">
     <link href="../../static/bootstraptable/bootstrap-table.min.css" rel="stylesheet">
 
@@ -67,9 +67,9 @@
             <li><a href="/teacher_main">Return</a></li>
           </ul>
         </div>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id="contentleft">
                 
-                <label class="hidden" id="paperidlabel">{{ paperid }}</label>
+                
                 <div class="row clearfix">
                     <div class="col-md-1 column">
                     </div>
@@ -87,10 +87,11 @@
                                 <div class="col-md-2 column">
                                     <div class="input-group">
                                         
-                                        <input type="text" class="form-control" placeholder="Answer here" >
+                                        <input type="text" class="form-control" placeholder="Score Here" >
                                         <span class="input-group-btn">
                                             <button class="btn btn-default" type="button" onclick="myFunction(this)">Save</button>
                                             <label class="hidden">{{ question.questionid }}</label>
+                                            <label class="hidden">{{ question.paperid }}</label>
                                         </span>                                 
                                     </div><!-- /input-group -->
                                 </div>
@@ -139,7 +140,7 @@
 
     <script src="../../static/bootstrapdist/assets/js/ie-emulation-modes-warning.js"></script>
     <script src="../static/js/jquery-3.2.1.min.js"></script>
-    <script src="../../static/js/judgepaper.js"></script>
+    <script src="../../static/js/judgepaperfun.js"></script>
     <script src="../../static/bootstraptable/bootstrap-table.js"></script>
     <script src="../../static/bootstraptable/bootstrap-table.min.js"></script>
     <script src="../../static/bootstraptable/bootstrap-table-en-US.js"></script>

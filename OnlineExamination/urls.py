@@ -47,9 +47,10 @@ urlpatterns = [
     url(r'^studentinfo$', studentview.studentinfo),
 
     url(r'^starttest/$', studentview.starttest),
-    url(r'^submitanswer$', studentview.submitanswer),
+    url(r'^submitanswer/$', studentview.submitanswer),
 
     url(r'^startjudgepaper/$', teacherview.startjudgepaper),
+    url(r'^submitscore/$', teacherview.submitscore),
     
     # data requests
 

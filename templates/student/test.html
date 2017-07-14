@@ -14,7 +14,7 @@
 
     <link href="../../static/bootstrapdist/css/bootstrap.min.css" rel="stylesheet">
     <link href="../../static/bootstrapdist/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
-    <link href="../../static/css/test.css" rel="stylesheet">
+    <link href="../../static/css/tests.css" rel="stylesheet">
     <link href="../../static/bootstraptable/bootstrap-table.css" rel="stylesheet">
     <link href="../../static/bootstraptable/bootstrap-table.min.css" rel="stylesheet">
 
@@ -66,9 +66,7 @@
             
             
           </ul>
-           <ul class="nav nav-sidebar">
-            <li class="disabled"><a href="/studentinfo" >Personal Info</a></li>
-          </ul>
+
           <ul class="nav nav-sidebar">
             <li class="disabled"><a href="/student_main">Return</a></li>
           </ul>
@@ -79,8 +77,8 @@
                     <div class="col-md-1 column">
                     </div>
                     <div class="col-md-9 column">
-                         
-                    {% for question in questionlist %}
+                    {% if questionlist %}
+                      {% for question in questionlist %}
                         
                         {% if question.choice %}
                         <div class="panel-heading" style="font-size:50px;">{{ question.num }}</div>
@@ -159,9 +157,12 @@
 
                         {% endif %}
 
-                    {% empty %}
+                    
+                      {% endfor %}
+
+                    {% else %}
                       <h1 style="font-size:80px;">Error</h1>
-                    {% endfor %}
+                    {% endif %}
 
 
 

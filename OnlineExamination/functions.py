@@ -134,6 +134,8 @@ def saveanswers(paperid,questionid,answer,ischoice):
     if ischoice=='0':
         questionobj=models.Paper_Content.objects.get(paperid_id=paperid,questionid_id=questionid,flag=True)
         questionobj.answer=answer
+        if answer=="":
+            questionobj.score=0
         questionobj.save()
         return "success"
     elif ischoice=="1":
@@ -153,8 +155,14 @@ def saveanswers(paperid,questionid,answer,ischoice):
 
 def getteachersubjects(username):
     subjectset=models.Subject_Teacher.objects.filter(teachername_id=username,flag=True)
-    
     subjectidlist=list()
     subjectnamelist=list()
     for item in subjectset:
-        subjectidlist.append(item.subjectid_id)
+        subjectidlist.append(item.subjectid_id)\
+    # dk
+
+def updatescore(paperid,questionid,score):
+    tempobj=models.Paper_Content.objects.get(paperid_id=paperid,questionid_id=questionid,flag=True)
+    tempobj.score=score
+    tempobj.save()
+    return "success"

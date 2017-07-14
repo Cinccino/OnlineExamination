@@ -46,7 +46,8 @@ def testui(request):
     for item in result:
         subjectlist.append(item[0])  # direct sql item has no attribute in tables
     ctx['subjectlist']=subjectlist
-    print(subjectlist)
+    if subjectlist=="":
+        ctx['subjectlist']=0
     response=render_to_response('testui.html',ctx)
     return response
 
@@ -151,9 +152,6 @@ def submitanswer(request):
     else:
         return HttpResponse("error")
         
-
-    
-
 
 
 def makepapertest(request):

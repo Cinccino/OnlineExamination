@@ -1,4 +1,3 @@
-
 function myFunction(elem) {
     var subjectname = $(elem).parents("tr").find("#subjectname").text(); 
     alert(subjectname);
