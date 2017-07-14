@@ -69,38 +69,47 @@
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
                 
-               <table data-toggle="table" id="tb_subject_teacher" id='tb_subject_teacher'>
-                  <div class="panel-heading" style="font-size:50px;">任课情况</div>
-                  <thead>
-                    <tr>
-                      <th  data-field="index" data-formatter="indexFormatter" >Id</th> 
-                      <th >Username</th>
-                      <th>Subject Name</th>
-                      <th>Item</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    
-                    {% for subject in subjectlist %}
-                      <script type="text/javascript">  
-                          function indexFormatter(value, row, index) {  
-                                return index+1;  
-                          }  
-                      </script>  
-                    <tr>
-                      <td></td>
-                      <td>{{ username }}</td>
-                      <td id="subjectname">{{ subject }}</td>
-                      <td><button type="button" class="btn btn-primary" id="testin" onclick="myFunction(this)" >Go</button></td>   
-                      <!--按钮js没反应！！！！！！-->
-                    {% empty %}
-                      <td colspan="4">当前用户未任课</td>
-                    {% endfor %}
-                    </tr>
-                    
-                  </tbody>
-                </table>
+                <label class="hidden" id="paperidlabel">{{ paperid }}</label>
+                <div class="row clearfix">
+                    <div class="col-md-1 column">
+                    </div>
+                    <div class="col-md-9 column">
+                     {% for question in questionlist %}
+                   
+                      <div class="panel-heading" style="font-size:50px;">{{ question.num }}</div>
+                      <div class="container">
+                     
+                            <div class="row clearfix">
+                                <div class="col-md-6 column">
+                                    {{  question.content  }}
+                                </div>
+                  
+                                <div class="col-md-2 column">
+                                    <div class="input-group">
+                                        
+                                        <input type="text" class="form-control" placeholder="Answer here" >
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" onclick="myFunction(this)">Save</button>
+                                            <label class="hidden">{{ question.questionid }}</label>
+                                        </span>                                 
+                                    </div><!-- /input-group -->
+                                </div>
+                            </div>     
+                              
+                            <div class="row clearfix">
+                              <div class="col-md-6 column">
+                                {{  question.answer  }}
+                              </div> 
+                            </div>                  
+                            
+                    </div>
+                    <div class="col-md-2 column">
+                    </div>
 
+                    {% empty %}
+                      <h1 style="font-size:80px;">Error</h1>
+                    {% endfor %}
+                </div>
                 
           
           </div>
@@ -130,7 +139,7 @@
 
     <script src="../../static/bootstrapdist/assets/js/ie-emulation-modes-warning.js"></script>
     <script src="../static/js/jquery-3.2.1.min.js"></script>
-    <script src="../../static/js/judgepapers.js"></script>
+    <script src="../../static/js/judgepaper.js"></script>
     <script src="../../static/bootstraptable/bootstrap-table.js"></script>
     <script src="../../static/bootstraptable/bootstrap-table.min.js"></script>
     <script src="../../static/bootstraptable/bootstrap-table-en-US.js"></script>

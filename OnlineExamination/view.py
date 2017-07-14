@@ -354,15 +354,24 @@ def studentgrade(request):
 
 def databasetest(request):
     # grade search ex: (1, u'111', u'zsq', u'math', u'20170709', 10)  datafield problem unsolved
-    sql='''select  onlinetest_paperinfo.paperid,onlinetest_student.username,onlinetest_student.name,onlinetest_subject.name,onlinetest_paperinfo.date,sum(onlinetest_paper_content.score)
-    from onlinetest_paperinfo,onlinetest_paper_content,onlinetest_subject,onlinetest_student
-    where onlinetest_paperinfo.subjectid_id=onlinetest_subject.subjectid
-    and   onlinetest_paper_content.paperid_id=onlinetest_paperinfo.paperid
-    and   onlinetest_paperinfo.studentid_id=onlinetest_student.username
-    group by onlinetest_paperinfo.paperid
-    '''
+    # sql='''select  onlinetest_paperinfo.paperid,onlinetest_student.username,onlinetest_student.name,onlinetest_subject.name,onlinetest_paperinfo.date,sum(onlinetest_paper_content.score)
+    # from onlinetest_paperinfo,onlinetest_paper_content,onlinetest_subject,onlinetest_student
+    # where onlinetest_paperinfo.subjectid_id=onlinetest_subject.subjectid
+    # and   onlinetest_paper_content.paperid_id=onlinetest_paperinfo.paperid
+    # and   onlinetest_paperinfo.studentid_id=onlinetest_student.username
+    # group by onlinetest_paperinfo.paperid
+    # '''
+    subjectname='数学'
+    username='E11414026'
+    sql=''' select onlinetest_paper_content.paperid_id,onlinetest_paper_content.questionid_id,onlinetest_paper_content.answer
+        from onlinetest_paper_content,onlinetest_paperinfo,onlinetest_subject
+        where onlinetest_paper_content.paperid_id=onlinetest_paperinfo.paperid
+        and   onlinetest_paperinfo.subjectid_id=onlinetest_subject.subjectid
+        and   onlinetest_subject.name='''+'\''+subjectname+'\''+'''
+        and   onlinetest_paperinfo.studentid_id='''+'\''+username+'\''
+
     ans=functions.runsql(sql)
-    print(ans)
+    
     return HttpResponse(ans)
 
 

@@ -46,8 +46,10 @@ urlpatterns = [
     url(r'^testui/$', studentview.testui),
     url(r'^studentinfo$', studentview.studentinfo),
 
-    url(r'^starttest$', studentview.starttest),
+    url(r'^starttest/$', studentview.starttest),
     url(r'^submitanswer$', studentview.submitanswer),
+
+    url(r'^startjudgepaper/$', teacherview.startjudgepaper),
     
     # data requests
 

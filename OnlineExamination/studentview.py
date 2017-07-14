@@ -42,6 +42,7 @@ def testui(request):
     '''
     sql=sql+'\''+userinfo.username+'\''
     result=functions.runsql(sql)
+
     for item in result:
         subjectlist.append(item[0])  # direct sql item has no attribute in tables
     ctx['subjectlist']=subjectlist

@@ -150,3 +150,11 @@ def saveanswers(paperid,questionid,answer,ischoice):
         return "success"
     else:
         return "error ischoice val error"
+
+def getteachersubjects(username):
+    subjectset=models.Subject_Teacher.objects.filter(teachername_id=username,flag=True)
+    
+    subjectidlist=list()
+    subjectnamelist=list()
+    for item in subjectset:
+        subjectidlist.append(item.subjectid_id)
