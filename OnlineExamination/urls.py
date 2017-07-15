@@ -34,7 +34,7 @@ urlpatterns = [
     url(r'^infoeditor_teacher/$', adminview.infoeditor_teacher),
     url(r'^infoeditor_grade/$', adminview.infoeditor_grade),
     url(r'^questionbank/$', adminview.questionbank),
-    url(r'^settings/$', adminview.settings),
+    url(r'^settings$', adminview.settings),
     url(r'^admininfo/$', adminview.admininfo),
 
     url(r'^tgradetable$', teacherview.tgradetable),
@@ -58,6 +58,7 @@ urlpatterns = [
     url(r'^asset_show_table_teacher$',view.show_table_teacher),
     url(r'^asset_show_table_grade$',view.show_table_grade),
     url(r'^asset_show_table_questionbank$',view.asset_show_table_questionbank),
+    url(r'^asset_show_table_subject$',view.asset_show_table_subject),
     url(r'^aothertableview/$',view.aothertableview),
     url(r'^studentgrade/$',view.studentgrade),
     
@@ -67,6 +68,8 @@ urlpatterns = [
     url(r'^btnaddrequest/$',view.btnaddrequest),
     url(r'^btndeleterequest/$',view.btndeleterequest),
     url(r'^btneditrequest/$',view.btneditrequest),
+    url(r'^btndeletesubjectrequest/$',view.btndeletesubjectrequest),
+    url(r'^btnaddsubjectrequest/$',view.btnaddsubjectrequest),
 
     # function test
     url(r'^makepapertest/$', studentview.makepapertest),

@@ -86,6 +86,20 @@ def deluserrecord(form,username):
     temprecord.save()
     return True
 
+
+def delsubjectrecord(subjectid):
+    temprecord = models.Subject.objects.get(subjectid=subjectid)
+    temprecord.flag=False
+    temprecord.save()
+    return True
+
+def addsubjectrecord(subjectid,name):
+    if models.Subject.objects.filter(subjectid=subjectid).exists():
+        return False,"record exists!"
+    temprecord = models.Subject.objects.create(subjectid=subjectid,name=name)
+    temprecord.save()
+    return True,""
+
 def adduserrecord(form,username,name,pwd,email,major):
     
     if form=="admin" or form=="Admin":

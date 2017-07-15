@@ -359,6 +359,44 @@ def asset_show_table_questionbank(request):
             })
         return JsonResponse(response_data)
 
+def asset_show_table_subject(request):
+   
+    if request.method == "GET":
+        print(request.GET)
+        limit = request.GET.get('limit')   # how many items per page
+        offset = request.GET.get('offset')  # how many items in total in the DB
+        search = request.GET.get('search')
+        sort_column = request.GET.get('ordername')   # which column need to sort
+        order = request.GET.get('order')      # ascending or descending
+        
+        if search:    #    
+            all_records = models.Subject.objects.filter(subjectid=str(search))
+        else:
+            all_records = models.Subject.objects.all()   # must be wirte the line code here
+        print(sort_column)
+        if sort_column:
+            if sort_column=="subjectid":
+                if order == 'desc':
+                    all_records = models.Subject.objects.all().order_by(sort_column)
+                    
+        all_records_count=all_records.count()
+
+        if not offset:
+            offset = 0
+        if not limit:
+            limit = 20    
+
+        page = int(int(offset) / int(limit) + 1)    
+        response_data = {'total':all_records_count,'rows':[]}   
+        for asset in all_records:    
+            response_data['rows'].append({
+                "subjectid": asset.subjectid,   
+                "name" : asset.name,
+                "flag":asset.flag,
+            })
+
+        return JsonResponse(response_data)
+
 def studentgrade(request):
     if request.method == "GET":
         username=request.COOKIES['userid']
@@ -456,6 +494,31 @@ def btndeleterequest(request):
                 return HttpResponse('Error！')
         return HttpResponse('success')
         # return JsonResponse("success")
+
+def btndeletesubjectrequest(request):
+    if request.method=='POST':
+        print(request.POST)
+        ids=[]
+        ids=request.POST.getlist('subjectsets[]')
+        print(ids)
+        for subjectid in ids:
+            if functions.delsubjectrecord(subjectid)==False:
+                return HttpResponse('Error！')
+        return HttpResponse('success')
+        # return JsonResponse("success")
+
+def btnaddsubjectrequest(request):
+    if request.method=='POST':
+        print(request.POST)
+        
+        subjectid=request.POST.get('subjectid')
+        name=request.POST.get('name')
+
+        flag,msg=functions.addsubjectrecord(subjectid,name)
+        if flag==False:
+            return HttpResponse('Error:'+msg)
+        else:
+            return HttpResponse('success')
 
 
 def btnaddrequest(request):
