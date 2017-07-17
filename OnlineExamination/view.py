@@ -7,7 +7,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from onlinetest import models
 from django.http import JsonResponse
 import json
-from . import functions 
+from . import functions
+from django.core.paginator import Paginator,InvalidPage,EmptyPage
 
 from django.db import connection
 cursor=connection.cursor()
@@ -181,13 +182,13 @@ def show_table_student(request):
             offset = 0
         if not limit:
             limit = 20    
-        # pageinator = Paginator(all_records, limit) 
 
+        pageinator = Paginator(all_records, limit)   # 开始做分页
         page = int(int(offset) / int(limit) + 1)    
         response_data = {'total':all_records_count,'rows':[]}   
 
         # response_data['rows']=all_records
-        for asset in all_records:
+        for asset in pageinator.page(page):
             if asset.flag:
                 response_data['rows'].append({
                     "username": asset.username,   
@@ -226,11 +227,13 @@ def show_table_teacher(request):
         if not offset:
             offset = 0
         if not limit:
-            limit = 20    
+            limit = 20   
+
+        pageinator = Paginator(all_records, limit)   # 开始做分页 
 
         page = int(int(offset) / int(limit) + 1)    
         response_data = {'total':all_records_count,'rows':[]}   
-        for asset in all_records:    
+        for asset in pageinator.page(page):    
             response_data['rows'].append({
                 "username": asset.username,   
                 "name" : asset.name,
@@ -297,10 +300,11 @@ def show_table_grade(request):
             offset = 0
         if not limit:
             limit = 20    
+        pageinator = Paginator(all_records, limit)   # 开始做分页
 
         page = int(int(offset) / int(limit) + 1)    
         response_data = {'total':all_records_count,'rows':[]}   
-        for asset in all_records:    
+        for asset in pageinator.page(page):    
             response_data['rows'].append({
                 "paperid": asset[0],   
                 "username" : asset[1],
@@ -326,6 +330,7 @@ def asset_show_table_questionbank(request):
         select  questionid,content,choice,answer,score,onlinetest_subject.name
         from onlinetest_subject,onlinetest_questionbank
         where onlinetest_questionbank.subjectid_id=onlinetest_subject.subjectid
+        and   onlinetest_questionbank.flag=1
         order by questionid
         '''   
         print(search)
@@ -334,6 +339,7 @@ def asset_show_table_questionbank(request):
         select  questionid,content,choice,answer,score,onlinetest_subject.name
         from onlinetest_subject,onlinetest_questionbank
         where onlinetest_questionbank.subjectid_id=onlinetest_subject.subjectid
+        and   onlinetest_questionbank.flag=1
         and   questionid='''+str(search)
 
 
@@ -345,10 +351,11 @@ def asset_show_table_questionbank(request):
             offset = 0
         if not limit:
             limit = 20    
+        pageinator = Paginator(all_records, limit)   # 开始做分页
 
         page = int(int(offset) / int(limit) + 1)    
         response_data = {'total':all_records_count,'rows':[]}   
-        for asset in all_records:    
+        for asset in pageinator.page(page):    
             response_data['rows'].append({
                 "questionid": asset[0],   
                 "content" : asset[1],
@@ -385,10 +392,10 @@ def asset_show_table_subject(request):
             offset = 0
         if not limit:
             limit = 20    
-
+        pageinator = Paginator(all_records, limit)   # 开始做分页
         page = int(int(offset) / int(limit) + 1)    
         response_data = {'total':all_records_count,'rows':[]}   
-        for asset in all_records:    
+        for asset in pageinator.page(page):    
             response_data['rows'].append({
                 "subjectid": asset.subjectid,   
                 "name" : asset.name,
@@ -445,10 +452,11 @@ def studentgrade(request):
             offset = 0
         if not limit:
             limit = 20    
+        pageinator = Paginator(all_records, limit)   # 开始做分页
 
         page = int(int(offset) / int(limit) + 1)
         response_data = {'total':all_records_count,'rows':[]}   
-        for asset in all_records:    
+        for asset in pageinator.page(page):    
             response_data['rows'].append({
                 "paperid": asset[0],   
                 "username" : asset[1],
@@ -491,6 +499,36 @@ def btndeleterequest(request):
         ids=request.POST.getlist('usersets[]')
         for username in ids:
             if functions.deluserrecord(form,username)==False:
+                return HttpResponse('Error！')
+        return HttpResponse('success')
+        # return JsonResponse("success")
+
+
+def btnaddqbrequest(request):
+    if request.method=='POST':
+        print(request.POST)
+        
+        content=request.POST.get('content')
+        answer=request.POST.get('answer')
+        score=request.POST.get('score')
+        subject=request.POST.get('subject')
+        choice=request.POST.get('choice')
+
+        flag,msg=functions.addqbrecord(content,answer,choice,score,subject)
+        if flag==False:
+            return HttpResponse('Error:'+msg)
+        else:
+            return HttpResponse('success')
+
+
+def btndeleteqbrequest(request):
+    if request.method=='POST':
+        print(request.POST)
+        ids=[]
+ 
+        ids=request.POST.getlist('questionidset[]')
+        for questionid in ids:
+            if functions.delqbrecord(questionid)==False:
                 return HttpResponse('Error！')
         return HttpResponse('success')
         # return JsonResponse("success")

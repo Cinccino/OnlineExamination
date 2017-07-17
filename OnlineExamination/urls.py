@@ -23,7 +23,7 @@ urlpatterns = [
     url(r'^login/$', view.loginpage),
     url(r'^logout/$', view.logout),
 
-    url(r'^admin_main/$', adminview.admin_main),
+    url(r'^admin_main$', adminview.admin_main),
     url(r'^student_main$', studentview.student_main),
     url(r'^teacher_main$', teacherview.teacher_main),
     
@@ -70,6 +70,9 @@ urlpatterns = [
     url(r'^btneditrequest/$',view.btneditrequest),
     url(r'^btndeletesubjectrequest/$',view.btndeletesubjectrequest),
     url(r'^btnaddsubjectrequest/$',view.btnaddsubjectrequest),
+
+    url(r'^btndeleteqbrequest/$',view.btndeleteqbrequest),
+    url(r'^btnaddqbrequest/$',view.btnaddqbrequest),
 
     # function test
     url(r'^makepapertest/$', studentview.makepapertest),

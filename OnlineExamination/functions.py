@@ -87,9 +87,19 @@ def deluserrecord(form,username):
     return True
 
 
+def delqbrecord(questionid):
+    temprecord = models.QuestionBank.objects.get(questionid=questionid)
+    temprecord.flag=False
+    temprecord.save()
+    return True
+
+
 def delsubjectrecord(subjectid):
     temprecord = models.Subject.objects.get(subjectid=subjectid)
-    temprecord.flag=False
+    if temprecord.flag==False:
+        temprecord.flag=True
+    if  temprecord.flag==True:
+        temprecord.flag=False
     temprecord.save()
     return True
 
@@ -97,6 +107,12 @@ def addsubjectrecord(subjectid,name):
     if models.Subject.objects.filter(subjectid=subjectid).exists():
         return False,"record exists!"
     temprecord = models.Subject.objects.create(subjectid=subjectid,name=name)
+    temprecord.save()
+    return True,""
+
+def addqbrecord(content,answer,choice,score,subject):
+    subjectobj = models.Subject.objects.get(name=subject)
+    temprecord = models.QuestionBank.objects.create(content=content,answer=answer,choice=choice,score=score,subjectid_id=str(subjectobj.subjectid))
     temprecord.save()
     return True,""
 
@@ -121,7 +137,7 @@ def adduserrecord(form,username,name,pwd,email,major):
     temprecord.save()
     return True,""
 
-# temporary rule is totalnum=100
+# temporary rule is random 3 from qb
 def makepaper(username,subjectid):
     # generate paperinfo
     date=time.strftime('%Y-%m-%d',time.localtime(time.time()))

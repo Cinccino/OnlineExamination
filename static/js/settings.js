@@ -215,13 +215,14 @@ var ButtonInit = function () {
                 var ids = [];  
                 for (var i = 0; i < result.length; i++) {  
                     var item = result[i];  
-                    ids.push(item.username);  
+                    ids.push(item.subjectid);  
                 }  
 
                 if (ids.length <1 ) {
-                    alert("未选中行!!");
+                    alert("未选中行!");
                     return; 
                 }
+                //alert(ids)
                 $.post("/btndeletesubjectrequest/",  
                 {  
                 subjectsets:ids, 

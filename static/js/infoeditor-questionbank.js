@@ -1,4 +1,40 @@
 
+$("#dialogsubmit").click(function () {
+
+    var content = $("#inputcontent").val();//document.getElementById("inputusername");
+    var choice = $("#inputchoice").val();
+    var answer = $("#inputanswer").val();
+    var score = $("#inputscore").val();
+    var subject = $("#inputsubject").val();
+    alert(content+choice+answer+score+subject)
+
+    if (content && score && answer && subject)
+        {
+            $.post("/btnaddqbrequest/",  
+            {  
+            content:content, 
+            choice:choice,
+            answer:answer,
+            score:score,
+            subject:subject,
+
+            },
+            function(data)
+                { 
+                // var dialog=document.getElementById("modal-add")
+                // dialog.close();
+                //$("#modal-add").hide();
+                alert( data );
+                }
+            )
+        }
+    else
+        {
+            alert("error!"); 
+        }
+
+});
+
 $(function () {
 
     //1.初始化Table
@@ -18,7 +54,7 @@ var TableInit = function () {
     var oTableInit = new Object();
     //初始化Table
     oTableInit.Init = function () {
-        $('#tb_departments').bootstrapTable({
+        $('#tb').bootstrapTable({
             url: '/asset_show_table_questionbank',         //请求后台的URL（*）
             method: 'get',                      //请求方式（*）
             toolbar: '#toolbar',                //工具按钮用哪个容器
@@ -90,6 +126,29 @@ var ButtonInit = function () {
 
     oInit.Init = function () {
         //初始化页面上面的按钮事件
+        $("#btn_delete").click(function () {
+                var result = $('#tb').bootstrapTable('getSelections');  
+    
+                var ids = [];  
+                for (var i = 0; i < result.length; i++) {  
+                    var item = result[i];  
+                    ids.push(item.questionid);  
+                }  
+
+                if (ids.length <1 ) {
+                    alert("未选中行!");
+                    return; 
+                }
+                $.post("/btndeleteqbrequest/",  
+                {  
+                questionidset:ids, 
+ 
+                },  
+                function(data){  
+                alert( data );  
+                });
+
+            });     
     };
 
     return oInit;
